@@ -1,10 +1,13 @@
 defmodule Log.MixProject do
   use Mix.Project
 
+  @external_resource path = Path.join(__DIR__, "VERSION")
+  @version path |> File.read!() |> String.trim()
+
   def project do
     [
       app: :log,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
