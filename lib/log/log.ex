@@ -1,0 +1,2 @@
+defmodule Log do
+end
