@@ -8,34 +8,45 @@ defmodule Log.Config do
             levels: ["debug", "info", "warn", "error"],
             colors: %{}
 
+  @spec coerce_levels(levels :: [atom()]) :: %{
+          levels: [String.t()],
+          level_weights: %{optional(String.t()) => non_neg_integer()}
+        }
+  def coerce_levels(levels) do
+    text_levels = Enum.map(levels, &Kernel.to_string/1)
+
+    weights =
+      text_levels
+      |> Enum.with_index(0)
+      |> Map.new()
+
+    %{levels: text_levels, level_weights: weights}
+  end
+
+  @spec coerce_colors(colors :: %{optional(atom()) => IO.ANSI.ansidata()}) :: %{
+          optional(String.t()) => IO.ANSI.ansidata()
+        }
+  def coerce_colors(%{} = colors) do
+    colors
+    |> Enum.map(fn {name, color} -> {to_string(name), color} end)
+    |> Map.new()
+  end
+
   def build(opts \\ []) do
     opts =
       opts
       |> Keyword.put_new(:levels, [:debug, :info, :warn, :error])
       |> Keyword.put_new(:colors, %{})
 
-    colors = Keyword.get(opts, :colors)
-    levels = Keyword.get(opts, :levels)
-    levels = Enum.map(levels, &Kernel.to_string/1)
+    colors = coerce_colors(Keyword.get(opts, :colors))
+    levels = coerce_levels(Keyword.get(opts, :levels))
 
-    weights =
-      levels
-      |> Enum.with_index(0)
-      |> Map.new()
-
-    %__MODULE__{levels: levels, level_weights: weights, colors: colors}
-  end
-
-  def level_allowed?(%__MODULE__{} = config, output_level) do
-    log_level = get_level(config)
-    log_level_weight = get_level_weight(config, log_level)
-    level_weight = get_level_weight(config, output_level)
-
-    log_level_weight <= level_weight
+    %__MODULE__{colors: colors}
+    |> Map.merge(levels)
   end
 
   def get_color(%__MODULE__{colors: colors}, output_level) do
-    case Map.get(colors, output_level, [IO.ANSI.normal()]) do
+    case Map.get(colors, to_string(output_level), [IO.ANSI.normal()]) do
       list when is_list(list) -> list
       not_list -> [not_list]
     end
@@ -59,15 +70,6 @@ defmodule Log.Config do
     else
       nil -> List.first(levels)
       :not_exist -> raise ArgumentError, message: "LOG_LEVEL is invalid"
-    end
-  end
-
-  def get_level_weight(%__MODULE__{} = config, output_level) do
-    level_weights = config.level_weights
-
-    case Map.get(level_weights, output_level) do
-      nil -> raise ArgumentError, message: "Output level is invalid: #{output_level}"
-      weight -> weight
     end
   end
 end

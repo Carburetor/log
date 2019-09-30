@@ -11,6 +11,7 @@ defmodule Log.IO.Sync do
           "Invalid log message: #{inspect(output)}"
       end
 
+    msg = IO.ANSI.format(msg)
     IO.puts(device, msg)
   end
 end
