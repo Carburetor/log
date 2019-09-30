@@ -1,8 +1,8 @@
 defmodule LogTest do
   use ExUnit.Case
-  doctest Log
+  require Logger
 
-  test "greets the world" do
-    assert Log.hello() == :world
+  test "foo" do
+    Logger.warn("foo")
   end
 end
