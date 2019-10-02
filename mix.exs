@@ -16,8 +16,8 @@ defmodule Log.MixProject do
       consolidate_protocols: consolidate_protocols(Mix.env()),
       # Docs
       name: "Log",
-      source_url: "https://github.com/rill-project/log",
-      homepage_url: "https://github.com/rill-project/log",
+      source_url: "https://github.com/Carburetor/log",
+      homepage_url: "https://github.com/Carburetor/log",
       docs: docs()
     ]
   end
@@ -42,7 +42,7 @@ defmodule Log.MixProject do
       maintainers: ["Francesco Belladonna"],
       description: "Log to console library, with configurable levels and tagging",
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/rill-project/log"},
+      links: %{"GitHub" => "https://github.com/Carburetor/log"},
       files: [
         ".formatter.exs",
         "mix.exs",
