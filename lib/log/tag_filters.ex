@@ -29,7 +29,7 @@ defmodule Log.TagFilters do
     end)
   end
 
-  @spec parse!(filters :: [String.t()]) :: t() | no_return()
+  @spec parse!(filters :: String.t() | [String.t()]) :: t() | no_return()
   def parse!(filters) do
     case parse(filters) do
       {:error, msg} -> raise ArgumentError, msg
