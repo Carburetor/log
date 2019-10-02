@@ -4,18 +4,19 @@ defmodule Log.Message do
             output_tags: [],
             config: %Log.Config{},
             level: Log.Level.min(),
-            timestamp: nil,
+            timestamp: NaiveDateTime.new(1, 1, 1, 0, 0, 0) |> elem(1),
             text: "",
             tags: [],
             skip?: false,
-            skip_reason: nil
+            skip_reason: ""
 
   @type t :: map()
 
   def build({level, _gl, {Logger, text, timestamp, meta}}) do
-    %__MODULE__{text: text, timestamp: timestamp}
+    %__MODULE__{text: text}
     |> put_level(level, meta)
     |> put_tags(meta)
+    |> put_timestamp(timestamp)
   end
 
   def put_level(%__MODULE__{} = message, level, meta) do
@@ -48,6 +49,19 @@ defmodule Log.Message do
 
       parsed_tags ->
         %{message | tags: parsed_tags}
+    end
+  end
+
+  def put_timestamp(%__MODULE__{} = message, timestamp) do
+    case Log.Timestamp.parse(timestamp) do
+      {:error, _} ->
+        skip(
+          message,
+          "Error parsing message timestamp #{inspect(timestamp)}"
+        )
+
+      date ->
+        %{message | timestamp: date}
     end
   end
 

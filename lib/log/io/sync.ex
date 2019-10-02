@@ -10,7 +10,7 @@ defmodule Log.IO.Sync do
   def write(%Log.Message{skip?: false} = message) do
     message_text =
       try do
-        :unicode.characters_to_binary(message.text)
+        encode(message.text)
       rescue
         ArgumentError ->
           "Invalid log message: #{inspect(message)}"
@@ -19,5 +19,14 @@ defmodule Log.IO.Sync do
     message_text = IO.ANSI.format(message_text)
     IO.puts(message.output_device, message_text)
     message
+  end
+
+  def encode(text) do
+    :unicode.characters_to_binary(text)
+  rescue
+    ArgumentError ->
+      text
+      |> Logger.Formatter.prune()
+      |> :unicode.characters_to_binary()
   end
 end
