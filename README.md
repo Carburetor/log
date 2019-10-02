@@ -1,6 +1,9 @@
 # Log
 
-**TODO: Add description**
+- `CONSOLE_DEVICE` = `stdout | stderr`
+- `LOG_TAGS` = `_all | _untagged | tag_name | -tag_name`
+- `LOG_LEVEL` = `_none | debug | info | warn | error | user_defined_level`
+- `LOG_DEBUG` = `1` prints debug messages
 
 ## Installation
 
@@ -18,4 +21,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/log](https://hexdocs.pm/log).
-

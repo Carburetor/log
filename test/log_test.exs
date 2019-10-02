@@ -3,6 +3,6 @@ defmodule LogTest do
   require Logger
 
   test "foo" do
-    Logger.error("foo")
+    Logger.error("foo", tags: [:foo])
   end
 end

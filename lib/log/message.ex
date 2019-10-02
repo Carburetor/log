@@ -7,7 +7,8 @@ defmodule Log.Message do
             timestamp: nil,
             text: "",
             tags: [],
-            skip?: false
+            skip?: false,
+            skip_reason: nil
 
   @type t :: map()
 
@@ -20,8 +21,10 @@ defmodule Log.Message do
   def put_level(%__MODULE__{} = message, level, meta) do
     case Log.Level.parse(meta[:level] || level) do
       {:error, msg} ->
-        IO.inspect({meta, level, msg})
-        skip(message)
+        skip(
+          message,
+          "Error parsing message level: #{inspect({meta, level, msg})}"
+        )
 
       parsed_level ->
         %{message | level: parsed_level}
@@ -40,12 +43,19 @@ defmodule Log.Message do
       end
 
     case Log.Tags.parse(tags) do
-      {:error, _} -> skip(message)
-      parsed_tags -> %{message | tags: parsed_tags}
+      {:error, _} ->
+        skip(message, "Error parsing message tags: #{inspect(tags)}")
+
+      parsed_tags ->
+        %{message | tags: parsed_tags}
     end
   end
 
   def skip(%__MODULE__{} = message), do: %{message | skip?: true}
+
+  def skip(%__MODULE__{} = message, reason) do
+    %{message | skip?: true, skip_reason: reason}
+  end
 
   def put_config(%__MODULE__{} = message, config) do
     %{message | config: config}

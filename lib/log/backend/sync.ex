@@ -37,14 +37,17 @@ defmodule Log.Backend.Sync do
     |> Log.Filter.by_level()
     |> Log.Filter.by_tag_filters()
     |> Log.IO.Sync.write()
+    |> debug_message()
 
     {:ok, state}
   rescue
     err ->
-      Exception.format(:error, err, __STACKTRACE__)
-      |> IO.puts()
+      if System.get_env("LOG_DEBUG", "0") == "1" do
+        error_message = Exception.format(:error, err, __STACKTRACE__)
+        IO.puts(error_message)
+      end
 
-      {:ok, state}
+      raise err
   end
 
   def handle_event(:flush, state) do
@@ -69,5 +72,13 @@ defmodule Log.Backend.Sync do
 
   def terminate(_reason, _state) do
     :ok
+  end
+
+  def debug_message(message) do
+    if System.get_env("LOG_DEBUG", "0") == "1" do
+      IO.inspect(message, label: "[Log DEBUG]")
+    end
+
+    message
   end
 end
