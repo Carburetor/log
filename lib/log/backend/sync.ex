@@ -35,9 +35,16 @@ defmodule Log.Backend.Sync do
     |> Log.Defaults.put()
     |> Log.Message.put_config(state.config)
     |> Log.Filter.by_level()
+    |> Log.Filter.by_tag_filters()
     |> Log.IO.Sync.write()
 
     {:ok, state}
+  rescue
+    err ->
+      Exception.format(:error, err, __STACKTRACE__)
+      |> IO.puts()
+
+      {:ok, state}
   end
 
   def handle_event(:flush, state) do

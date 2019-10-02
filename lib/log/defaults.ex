@@ -1,12 +1,13 @@
 defmodule Log.Defaults do
   alias Log.Device
-  alias Log.Level
+  alias Log.LevelFilter
+  alias Log.TagFilters
 
-  @spec level() :: Level.t()
+  @spec level() :: LevelFilter.t()
   def level do
     "LOG_LEVEL"
     |> System.get_env("info")
-    |> Level.parse!()
+    |> LevelFilter.parse!()
   end
 
   @spec device() :: Device.t()
@@ -16,9 +17,21 @@ defmodule Log.Defaults do
     |> Device.parse!()
   end
 
+  @spec tags() :: TagFilters.t()
+  def tags do
+    "LOG_TAGS"
+    |> System.get_env("")
+    |> TagFilters.parse!()
+  end
+
   def put(%Log.Message{skip?: true} = message), do: message
 
   def put(%Log.Message{skip?: false} = message) do
-    %{message | output_level: level(), output_device: device()}
+    %{
+      message
+      | output_level: level(),
+        output_device: device(),
+        output_tags: tags()
+    }
   end
 end

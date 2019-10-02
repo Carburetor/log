@@ -3,6 +3,6 @@ defmodule LogTest do
   require Logger
 
   test "foo" do
-    Logger.warn("foo")
+    Logger.error("foo")
   end
 end
