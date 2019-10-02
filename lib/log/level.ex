@@ -20,9 +20,17 @@ defmodule Log.Level do
                end
            end)
   @level_weights Enum.with_index(@levels) |> Map.new()
+  @level_name_max_length @levels
+                         |> Enum.map(&Kernel.to_string/1)
+                         |> Enum.map(&String.length/1)
+                         |> Enum.sort()
+                         |> List.last()
 
   @type t :: atom()
   @type weight :: non_neg_integer()
+
+  @spec name_max_length() :: pos_integer()
+  def name_max_length, do: @level_name_max_length
 
   @spec all() :: [t()]
   def all, do: @levels

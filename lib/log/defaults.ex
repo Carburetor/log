@@ -24,6 +24,11 @@ defmodule Log.Defaults do
     |> TagFilters.parse!()
   end
 
+  @spec utc?() :: boolean()
+  def utc? do
+    Application.get_env(:logger, :utc_log, false)
+  end
+
   def put(%Log.Message{skip?: true} = message), do: message
 
   def put(%Log.Message{skip?: false} = message) do
@@ -31,7 +36,8 @@ defmodule Log.Defaults do
       message
       | output_level: level(),
         output_device: device(),
-        output_tags: tags()
+        output_tags: tags(),
+        utc?: utc?()
     }
   end
 end

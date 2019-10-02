@@ -7,6 +7,7 @@ defmodule Log.Message do
             timestamp: NaiveDateTime.new(1, 1, 1, 0, 0, 0) |> elem(1),
             text: "",
             tags: [],
+            utc?: false,
             skip?: false,
             skip_reason: ""
 
