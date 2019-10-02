@@ -1,29 +1,24 @@
 defmodule Log.Backend.Sync do
   @moduledoc false
 
+  alias Log.Config
+
   @behaviour :gen_event
 
-  defstruct colors: %{}, level: nil, device: :standard_error
+  defstruct config: %Config{}
 
   def init(__MODULE__) do
     init({__MODULE__, []})
   end
 
   def init({__MODULE__, opts}) when is_list(opts) do
-    device = Keyword.get(opts, :device, :standard_error)
-
-    if Process.whereis(device) do
-      {:ok, configure(opts)}
-    else
-      {:error, :ignore}
-    end
+    {:ok, configure(opts)}
   end
 
   def configure(opts, state \\ %__MODULE__{}) when is_list(opts) do
-    level = Keyword.get(opts, :level, :debug)
-    device = Keyword.get(opts, :device, :standard_error)
+    config = Config.build(opts)
 
-    %{state | level: level, device: device}
+    %{state | config: config}
   end
 
   def handle_call({:configure, opts}, state) do
@@ -34,30 +29,15 @@ defmodule Log.Backend.Sync do
     {:ok, state}
   end
 
-  def handle_event({_level, _gl, {Logger, msg, _ts, _md}}, state) do
-    %{
-      level: _allowed_level,
-      device: device
-    } = state
+  def handle_event({_level, _gl, {Logger, _text, _ts, _meta}} = msg, state) do
+    msg
+    |> Log.Message.build()
+    |> Log.Defaults.put()
+    |> Log.Message.put_config(state.config)
+    |> Log.Filter.by_level()
+    |> Log.IO.Sync.write()
 
-    # level = md[:level] || level
-
-    Log.IO.Sync.write(device, msg)
-
-    # cond do
-    #   not meet_level?(level, log_level) ->
-    #     {:ok, state}
-
-    #   is_nil(ref) ->
-    #     {:ok, log_event(level, msg, ts, md, state)}
-
-    #   buffer_size < max_buffer ->
-    #     {:ok, buffer_event(level, msg, ts, md, state)}
-
-    #   buffer_size === max_buffer ->
-    #     state = buffer_event(level, msg, ts, md, state)
-    #     {:ok, await_io(state)}
-    # end
+    {:ok, state}
   end
 
   def handle_event(:flush, state) do

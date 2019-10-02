@@ -1,11 +1,17 @@
 defmodule Log.Device do
-  @spec get(device :: String.t()) :: :standard_error | :standard_io
-  def get(device)
+  @type t :: :standard_error | :standard_io
 
-  def get("stdout"), do: :standard_io
-  def get("stderr"), do: :standard_error
+  @spec parse(device :: String.t()) :: t() | :error
+  def parse(device)
+  def parse("stdout"), do: :standard_io
+  def parse("stderr"), do: :standard_error
+  def parse(_), do: :error
 
-  def get(device) do
-    raise(ArgumentError, message: "Log device invalid: #{device}")
+  @spec parse!(device :: String.t()) :: t() | no_return()
+  def parse!(device) do
+    case parse(device) do
+      :error -> raise(ArgumentError, "Log device invalid: #{device}")
+      result -> result
+    end
   end
 end
