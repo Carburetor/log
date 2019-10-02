@@ -42,9 +42,10 @@ defmodule Log.Format do
       |> :unicode.characters_to_binary()
   end
 
+  @spec color(Log.Config.t(), Log.Level.t(), String.t()) :: String.t()
   def color(config, level, text) do
     colors = Log.Config.get_color(config, level)
-    output = colors ++ [text]
+    output = [IO.ANSI.reset(), colors, text, IO.ANSI.reset()]
     output = IO.ANSI.format(output)
 
     to_string(output)

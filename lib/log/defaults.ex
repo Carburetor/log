@@ -29,6 +29,18 @@ defmodule Log.Defaults do
     Application.get_env(:logger, :utc_log, false)
   end
 
+  @spec colors() :: %{optional(Log.Level.t()) => Log.Color.t()}
+  def colors do
+    %{
+      trace: [IO.ANSI.cyan()],
+      debug: [IO.ANSI.green()],
+      info: [IO.ANSI.normal()],
+      warn: [IO.ANSI.yellow(), IO.ANSI.black_background()],
+      error: [IO.ANSI.red(), IO.ANSI.bright()],
+      fatal: [IO.ANSI.red(), IO.ANSI.black_background()]
+    }
+  end
+
   def put(%Log.Message{skip?: true} = message), do: message
 
   def put(%Log.Message{skip?: false} = message) do

@@ -11,7 +11,7 @@ defmodule Log.Config do
 
   @spec build(opts :: [{:colors, color_opts()}]) :: t()
   def build(opts \\ []) do
-    opts = Keyword.put_new(opts, :colors, %{})
+    opts = Keyword.put_new(opts, :colors, Log.Defaults.colors())
 
     colors = Keyword.get(opts, :colors)
 
