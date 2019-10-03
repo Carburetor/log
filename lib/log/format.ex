@@ -2,7 +2,7 @@ defmodule Log.Format do
   @spec message(message :: Log.Message.t()) :: String.t()
   def message(%Log.Message{} = message) do
     timestamp = timestamp(message.timestamp, message.utc?)
-    module = module("")
+    module = module(message.module)
     level = level(message.level)
     text = text(message.text)
 
@@ -22,7 +22,9 @@ defmodule Log.Format do
 
   @spec module(module :: module() | String.t()) :: String.t()
   def module(module) do
-    to_string(module)
+    module
+    |> to_string()
+    |> String.replace_leading("Elixir.", "")
   end
 
   @spec level(level :: Log.Level.t()) :: String.t()

@@ -7,6 +7,7 @@ defmodule Log.Message do
             timestamp: NaiveDateTime.new(1, 1, 1, 0, 0, 0) |> elem(1),
             text: "",
             tags: [],
+            module: nil,
             utc?: false,
             skip?: false,
             skip_reason: ""
@@ -18,6 +19,7 @@ defmodule Log.Message do
     |> put_level(level, meta)
     |> put_tags(meta)
     |> put_timestamp(timestamp)
+    |> put_module(meta)
   end
 
   def put_level(%__MODULE__{} = message, level, meta) do
@@ -64,6 +66,11 @@ defmodule Log.Message do
       date ->
         %{message | timestamp: date}
     end
+  end
+
+  def put_module(%__MODULE__{} = message, meta) do
+    module = meta[:module]
+    %{message | module: module}
   end
 
   def skip(%__MODULE__{} = message), do: %{message | skip?: true}

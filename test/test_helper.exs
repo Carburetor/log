@@ -5,7 +5,7 @@ Logger.add_backend(Log.Backend.Sync)
 
 # Logger.configure_backend(Log.Backend.Sync,
 #   colors: %{
-#     debug: IO.ANSI.green()
+#     error: IO.ANSI.blue()
 #   }
 # )
 
