@@ -41,6 +41,11 @@ defmodule Log.Defaults do
     }
   end
 
+  @spec module_alias() :: %{optional(module()) => String.t()}
+  def module_alias do
+    %{}
+  end
+
   def put(%Log.Message{skip?: true} = message), do: message
 
   def put(%Log.Message{skip?: false} = message) do

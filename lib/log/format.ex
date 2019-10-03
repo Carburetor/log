@@ -2,7 +2,7 @@ defmodule Log.Format do
   @spec message(message :: Log.Message.t()) :: String.t()
   def message(%Log.Message{} = message) do
     timestamp = timestamp(message.timestamp, message.utc?)
-    module = module(message.module)
+    module = module(message.module, message.config.module_alias)
     level = level(message.level)
     text = text(message.text)
 
@@ -20,11 +20,9 @@ defmodule Log.Format do
   def timestamp(date, true), do: "#{timestamp(date, false)}Z"
   def timestamp(date, false), do: NaiveDateTime.to_iso8601(date, :extended)
 
-  @spec module(module :: module() | String.t()) :: String.t()
-  def module(module) do
-    module
-    |> to_string()
-    |> String.replace_leading("Elixir.", "")
+  @spec module(module :: module() | String.t(), aliases :: Log.ModuleAlias.t()) :: String.t()
+  def module(module, aliases) do
+    Log.ModuleAlias.replace(module, aliases)
   end
 
   @spec level(level :: Log.Level.t()) :: String.t()
