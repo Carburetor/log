@@ -1,4 +1,4 @@
-defmodule Log.IO.Sync do
+defmodule Log.IO.Standard do
   @behaviour Log.IO
 
   @impl true

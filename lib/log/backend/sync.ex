@@ -36,13 +36,13 @@ defmodule Log.Backend.Sync do
     |> Log.Message.put_config(state.config)
     |> Log.Filter.by_level()
     |> Log.Filter.by_tag_filters()
-    |> Log.IO.Sync.write()
+    |> Log.IO.Standard.write()
     |> debug_message()
 
     {:ok, state}
   rescue
     err ->
-      if System.get_env("LOG_DEBUG", "0") == "1" do
+      if System.get_env("LOG_DEBUG", "off") == "on" do
         error_message = Exception.format(:error, err, __STACKTRACE__)
         IO.puts(error_message)
       end
@@ -75,7 +75,7 @@ defmodule Log.Backend.Sync do
   end
 
   def debug_message(message) do
-    if System.get_env("LOG_DEBUG", "0") == "1" do
+    if System.get_env("LOG_DEBUG", "off") == "on" do
       IO.inspect(message, label: "[Log DEBUG]")
     end
 
