@@ -4,6 +4,7 @@
 - `LOG_TAGS` = `_all | _untagged | tag_name | -tag_name`
 - `LOG_LEVEL` = `_none | debug | info | warn | error | user_defined_level`
 - `LOG_DEBUG` = `1` prints debug messages
+- `LOG_FORMATTERS` = `on | off` on colorize output
 
 ## Installation
 
