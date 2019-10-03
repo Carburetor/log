@@ -8,6 +8,7 @@ defmodule Log.Message do
             text: "",
             tags: [],
             module: nil,
+            format?: true,
             utc?: false,
             skip?: false,
             skip_reason: ""

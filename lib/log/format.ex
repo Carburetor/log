@@ -12,7 +12,10 @@ defmodule Log.Format do
         _ -> "[#{timestamp}] #{module} #{level}: #{text}"
       end
 
-    color(message.config, message.level, output)
+    case message.format? do
+      true -> color(message.config, message.level, output)
+      false -> output
+    end
   end
 
   @spec timestamp(date :: NaiveDateTime.t(), utc? :: boolean()) :: String.t()
