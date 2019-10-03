@@ -28,4 +28,18 @@ defmodule Log.Filter do
         )
     end
   end
+
+  def by_namespaces(%Log.Message{skip?: true} = message), do: message
+
+  def by_namespaces(%Log.Message{config: config} = message) do
+    namespaces = config.exclude_namespaces
+
+    case Enum.any?(namespaces, &Log.Namespace.prefix?(message.module, &1)) do
+      true ->
+        Log.Message.skip(message, "Namespace excluded")
+
+      false ->
+        message
+    end
+  end
 end

@@ -36,6 +36,7 @@ defmodule Log.Backend.Sync do
     |> Log.Message.put_config(state.config)
     |> Log.Filter.by_level()
     |> Log.Filter.by_tag_filters()
+    |> Log.Filter.by_namespaces()
     |> Log.IO.Standard.write()
     |> debug_message()
 

@@ -46,6 +46,11 @@ defmodule Log.Defaults do
     %{}
   end
 
+  @spec exclude_namespaces() :: [module()]
+  def exclude_namespaces do
+    []
+  end
+
   @spec format?() :: boolean()
   def format? do
     System.get_env("LOG_FORMATTERS", "on") == "on"
