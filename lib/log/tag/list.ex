@@ -1,4 +1,4 @@
-defmodule Log.Tags do
+defmodule Log.Tag.List do
   alias Log.Tag
 
   @type t :: [Tag.t()]

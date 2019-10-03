@@ -1,4 +1,4 @@
-defmodule Log.TagFilters do
+defmodule Log.TagFilter.List do
   alias Log.TagFilter
 
   import Kernel, except: [match?: 2]

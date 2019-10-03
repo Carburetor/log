@@ -47,7 +47,7 @@ defmodule Log.Message do
           [tag | tags]
       end
 
-    case Log.Tags.parse(tags) do
+    case Log.Tag.List.parse(tags) do
       {:error, _} ->
         skip(message, "Error parsing message tags: #{inspect(tags)}")
 

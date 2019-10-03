@@ -1,7 +1,7 @@
 defmodule Log.Defaults do
   alias Log.Device
   alias Log.LevelFilter
-  alias Log.TagFilters
+  alias Log.TagFilter.List
 
   @spec level() :: LevelFilter.t()
   def level do
@@ -17,11 +17,11 @@ defmodule Log.Defaults do
     |> Device.parse!()
   end
 
-  @spec tags() :: TagFilters.t()
+  @spec tags() :: TagFilter.List.t()
   def tags do
     "LOG_TAGS"
     |> System.get_env("")
-    |> TagFilters.parse!()
+    |> TagFilter.List.parse!()
   end
 
   @spec utc?() :: boolean()
