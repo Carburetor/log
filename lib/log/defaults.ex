@@ -1,7 +1,7 @@
 defmodule Log.Defaults do
   alias Log.Device
   alias Log.LevelFilter
-  alias Log.TagFilter.List
+  alias Log.TagFilter
 
   @spec level() :: LevelFilter.t()
   def level do
