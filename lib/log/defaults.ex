@@ -56,6 +56,11 @@ defmodule Log.Defaults do
     System.get_env("LOG_FORMATTERS", "on") == "on"
   end
 
+  @spec module?() :: boolean()
+  def module? do
+    System.get_env("LOG_MODULE", "on") == "on"
+  end
+
   def put(%Log.Message{skip?: true} = message), do: message
 
   def put(%Log.Message{skip?: false} = message) do
@@ -65,6 +70,7 @@ defmodule Log.Defaults do
         output_device: device(),
         output_tags: tags(),
         format?: format?(),
+        module?: module?(),
         utc?: utc?()
     }
   end

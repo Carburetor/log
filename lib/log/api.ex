@@ -14,6 +14,16 @@ defmodule Log.API do
     end
   end
 
+  def get_default_meta(caller_env) do
+    [
+      line: caller_env.line,
+      function: caller_env.function,
+      module: caller_env.module,
+      file: caller_env.file,
+      application: :application.get_application(caller_env.module)
+    ]
+  end
+
   @spec get_fixed_tags(definer :: module(), caller :: module) :: [atom()]
   def get_fixed_tags(definer, caller) do
     func_tags = Module.get_attribute(caller, :log_tags, [])
@@ -25,6 +35,19 @@ defmodule Log.API do
   def put_fixed_tags(meta, fixed_tags) do
     tags = Keyword.get(meta, :tags, [])
     Keyword.put(meta, :tags, tags ++ fixed_tags)
+  end
+
+  def get_base_meta(definer, caller_env) do
+    base_meta = get_default_meta(caller_env)
+    fixed_tags = get_fixed_tags(definer, caller_env.module)
+    put_fixed_tags(base_meta, fixed_tags)
+  end
+
+  def put_base_meta(meta, base_meta) do
+    fixed_tags = Keyword.get(base_meta, :tags, [])
+    base_meta = Keyword.delete(base_meta, :tags)
+    meta = Keyword.merge(base_meta, meta)
+    put_fixed_tags(meta, fixed_tags)
   end
 
   def put_level(meta, level) do
@@ -40,14 +63,15 @@ defmodule Log.API do
     quote(location: :keep) do
       defmacro log(level, chars_or_fun, meta) do
         root = unquote(__MODULE__)
-        fixed_tags = root.get_fixed_tags(__MODULE__, __CALLER__.module)
+        base_meta = root.get_base_meta(__MODULE__, __CALLER__)
+        IO.inspect(base_meta)
 
         quote do
           unquote(root).log(
             unquote(__MODULE__),
             unquote(level),
             unquote(chars_or_fun),
-            unquote(root).put_fixed_tags(unquote(meta), unquote(fixed_tags))
+            unquote(root).put_base_meta(unquote(meta), unquote(base_meta))
           )
         end
       end

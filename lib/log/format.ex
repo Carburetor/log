@@ -7,8 +7,9 @@ defmodule Log.Format do
     text = text(message.text)
 
     output =
-      case module do
-        "" -> "[#{timestamp}] #{level}: #{text}"
+      case {module, message.module?} do
+        {_, false} -> "[#{timestamp}] #{level}: #{text}"
+        {"", _} -> "[#{timestamp}] #{level}: #{text}"
         _ -> "[#{timestamp}] #{module} #{level}: #{text}"
       end
 
@@ -23,7 +24,8 @@ defmodule Log.Format do
   def timestamp(date, true), do: "#{timestamp(date, false)}Z"
   def timestamp(date, false), do: NaiveDateTime.to_iso8601(date, :extended)
 
-  @spec module(module :: module() | String.t(), aliases :: Log.ModuleAlias.t()) :: String.t()
+  @spec module(module :: module() | String.t(), aliases :: Log.ModuleAlias.t()) ::
+          String.t()
   def module(module, aliases) do
     Log.ModuleAlias.replace(module, aliases)
   end

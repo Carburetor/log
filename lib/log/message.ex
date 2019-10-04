@@ -9,6 +9,7 @@ defmodule Log.Message do
             tags: [],
             module: nil,
             format?: true,
+            module?: true,
             utc?: false,
             skip?: false,
             skip_reason: ""
@@ -16,6 +17,8 @@ defmodule Log.Message do
   @type t :: map()
 
   def build({level, _gl, {Logger, text, timestamp, meta}}) do
+    IO.inspect(meta)
+
     %__MODULE__{text: text}
     |> put_level(level, meta)
     |> put_tags(meta)
