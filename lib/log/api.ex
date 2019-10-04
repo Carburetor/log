@@ -5,10 +5,10 @@ defmodule Log.API do
               meta :: keyword()
             ) :: any()
 
-  @callback bare_log(
-              chars_or_fun :: String.t() | (() -> String.t()),
-              meta :: keyword()
-            ) :: any()
+  @spec bare_log(
+          chars_or_fun :: String.t() | (() -> String.t()),
+          meta :: keyword()
+        ) :: any()
   def bare_log(chars_or_fun, meta) do
     level_filter = Log.Defaults.level()
     level = Keyword.fetch!(meta, :level)

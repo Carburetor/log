@@ -21,10 +21,14 @@ defmodule Log.Inspect do
   def bare_log(data, meta)
 
   def bare_log(data, meta) when is_function(data) do
-    bare_log(data.(), meta)
+    force_log(data.(), meta)
   end
 
   def bare_log(data, meta) do
+    force_log(data, meta)
+  end
+
+  def force_log(data, meta) do
     inspect_opts = Keyword.take(meta, inspect_options())
     inspect_opts = Keyword.put_new(inspect_opts, :pretty, true)
     meta = Keyword.drop(meta, inspect_options())
