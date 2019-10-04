@@ -15,6 +15,7 @@ defmodule LogTest do
   defmodule Deeply.Nested.Module.WithLog do
     # use Log.API, tags: [:use]
     require MyLog
+    require Log.Inspect
 
     # @impl true
     # def bare_log(chars_or_fun, meta) do
@@ -57,7 +58,8 @@ defmodule LogTest do
       # end
 
       # Log.log(:info, &Special.hello/0, tags: [:whatboom])
-      MyLog.fatal(&Special.hello/0, tag: :boom2)
+      # MyLog.fatal(&Special.hello/0, tag: :boom2)
+      Log.Inspect.info(%{some: 123})
 
       # log(:error, "foo", tags: [:sdfs])
     end

@@ -1,10 +1,14 @@
 defmodule Log.API do
   @callback default_tags() :: [atom()]
   @callback bare_log(
-              chars_or_fun :: String.t() | (() -> String.t()),
+              data :: any() | (() -> any()),
               meta :: keyword()
             ) :: any()
 
+  @callback bare_log(
+              chars_or_fun :: String.t() | (() -> String.t()),
+              meta :: keyword()
+            ) :: any()
   def bare_log(chars_or_fun, meta) do
     level_filter = Log.Defaults.level()
     level = Keyword.fetch!(meta, :level)
