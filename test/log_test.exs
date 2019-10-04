@@ -59,7 +59,7 @@ defmodule LogTest do
 
       # Log.log(:info, &Special.hello/0, tags: [:whatboom])
       # MyLog.fatal(&Special.hello/0, tag: :boom2)
-      Log.Inspect.info(%{some: 123})
+      Log.Inspect.info(%{some: 123}, label: "whatever")
 
       # log(:error, "foo", tags: [:sdfs])
     end

@@ -14,7 +14,8 @@ defmodule Log.Inspect do
       :safe,
       :syntax_colors,
       :inspect_fun,
-      :custom_options
+      :custom_options,
+      :label
     ]
 
   @impl true
@@ -31,9 +32,17 @@ defmodule Log.Inspect do
   def force_log(data, meta) do
     inspect_opts = Keyword.take(meta, inspect_options())
     inspect_opts = Keyword.put_new(inspect_opts, :pretty, true)
-    meta = Keyword.drop(meta, inspect_options())
     text = inspect(data, inspect_opts)
     text = "\n#{text}"
+
+    text =
+      case Keyword.fetch(meta, :label) do
+        {:ok, label} -> "#{label}#{text}"
+        _ -> text
+      end
+
+    meta = Keyword.drop(meta, inspect_options())
     Log.API.bare_log(text, meta)
+    data
   end
 end
