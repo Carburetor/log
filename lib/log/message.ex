@@ -17,8 +17,6 @@ defmodule Log.Message do
   @type t :: map()
 
   def build({level, _gl, {Logger, text, timestamp, meta}}) do
-    IO.inspect(meta)
-
     %__MODULE__{text: text}
     |> put_level(level, meta)
     |> put_tags(meta)

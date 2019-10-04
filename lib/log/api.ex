@@ -15,9 +15,11 @@ defmodule Log.API do
   end
 
   def get_default_meta(caller_env) do
+    {fun_name, fun_arity} = caller_env.function
+
     [
       line: caller_env.line,
-      function: caller_env.function,
+      function: "#{fun_name}/#{fun_arity}",
       module: caller_env.module,
       file: caller_env.file,
       application: :application.get_application(caller_env.module)
