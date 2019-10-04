@@ -66,7 +66,6 @@ defmodule Log.API do
       defmacro log(level, chars_or_fun, meta) do
         root = unquote(__MODULE__)
         base_meta = root.get_base_meta(__MODULE__, __CALLER__)
-        IO.inspect(base_meta)
 
         quote do
           unquote(root).log(
