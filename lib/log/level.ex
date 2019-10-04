@@ -1,5 +1,5 @@
 defmodule Log.Level do
-  @default [:debug, :info, :warn, :error]
+  @default [:trace, :debug, :info, :warn, :error, :fatal]
   @levels (case Application.get_env(:log, :levels, @default) do
              [] ->
                raise ArgumentError, "At least one level is required for Log"
