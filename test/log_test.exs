@@ -16,6 +16,7 @@ defmodule LogTest do
     # use Log.API, tags: [:use]
     require MyLog
     require Log.Inspect
+    require Log.Data
 
     # @impl true
     # def bare_log(chars_or_fun, meta) do
@@ -59,7 +60,10 @@ defmodule LogTest do
 
       # Log.log(:info, &Special.hello/0, tags: [:whatboom])
       # MyLog.fatal(&Special.hello/0, tag: :boom2)
-      Log.Inspect.info(%{some: 123}, label: "whatever")
+      # Log.Inspect.info(%{some: 123}, label: "whatever")
+      Log.Data.info({"Special message", %{some: 123, what_ever: 444}},
+        tags: [:special_data]
+      )
 
       # log(:error, "foo", tags: [:sdfs])
     end

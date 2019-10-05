@@ -32,6 +32,7 @@ defmodule Log.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:recase, ">= 0.6.0"},
       {:dialyxir, ">= 1.0.0-rc.3", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.19.2", only: [:dev]}
     ]
@@ -40,7 +41,8 @@ defmodule Log.MixProject do
   def package do
     [
       maintainers: ["Francesco Belladonna"],
-      description: "Log to console library, with configurable levels and tagging",
+      description:
+        "Log to console library, with configurable levels and tagging",
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/Carburetor/log"},
       files: [
