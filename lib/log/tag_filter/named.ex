@@ -1,5 +1,5 @@
 defmodule Log.TagFilter.Named do
-  defstruct name: nil, exclude?: false
+  defstruct name: nil
 
-  @type t :: %__MODULE__{name: Log.Level.t(), exclude?: boolean()}
+  @type t :: %__MODULE__{name: Log.Level.t()}
 end

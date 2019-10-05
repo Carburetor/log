@@ -1,7 +1,10 @@
 # Log
 
 - `CONSOLE_DEVICE` = `stdout | stderr`
-- `LOG_TAGS` = `_all | _untagged | tag_name | -tag_name`
+- `LOG_TAGS` = `_all | _untagged | tag_name | -tag_name | +tag_name`
+  - `-` requires the tag to be missing
+  - `+` requires the tag to be present
+  - No sign means "One or more of no sign tags must be present"
 - `LOG_LEVEL` = `_none | debug | info | warn | error | user_defined_level`
 - `LOG_DEBUG` = `1` prints debug messages
 - `LOG_FORMATTERS` = `on | off` on colorize output

@@ -9,21 +9,41 @@ defmodule Log.TagFilter do
           TagFilter.Named.t()
           | TagFilter.Untagged.t()
           | TagFilter.Tagged.t()
+          | TagFilter.MustExcludeNamed.t()
+          | TagFilter.MustIncludeNamed.t()
 
   @spec parse(tag :: String.t()) :: t() | {:error, String.t()}
   def parse(tag)
   def parse("_untagged"), do: %TagFilter.Untagged{}
   def parse("-_untagged"), do: {:error, "-_untagged is not a valid filter"}
+  def parse("+_untagged"), do: {:error, "+_untagged is not a valid filter"}
   def parse("_all"), do: %TagFilter.Tagged{}
   def parse("-_all"), do: {:error, "-_all is not a valid filter"}
+  def parse("+_all"), do: {:error, "+_all is not a valid filter"}
   def parse("_" <> _ = text), do: {:error, "Filter \"#{text}\" begins with _"}
   def parse("--" <> _), do: {:error, "Multiple dashes at start of filter"}
+  def parse("++" <> _), do: {:error, "Multiple plus at start of filter"}
+  def parse("-+" <> _), do: {:error, "Multiple modifiers at start of filter"}
+  def parse("+-" <> _), do: {:error, "Multiple modifiers at start of filter"}
   def parse(""), do: {:error, "Filter is empty"}
 
   def parse("-" <> name) do
     case parse(name) do
-      %TagFilter.Named{} = filter -> %{filter | exclude?: true}
-      {:error, _} = error -> error
+      %TagFilter.Named{} = filter ->
+        %TagFilter.MustExcludeNamed{name: filter.name}
+
+      {:error, _} = error ->
+        error
+    end
+  end
+
+  def parse("+" <> name) do
+    case parse(name) do
+      %TagFilter.Named{} = filter ->
+        %TagFilter.MustIncludeNamed{name: filter.name}
+
+      {:error, _} = error ->
+        error
     end
   end
 
@@ -51,27 +71,27 @@ defmodule Log.TagFilter do
   def match?(%TagFilter.Tagged{}, []), do: false
   def match?(%TagFilter.Tagged{}, [_ | _]), do: true
   def match?(%TagFilter.Named{}, []), do: false
+  def match?(%TagFilter.MustExcludeNamed{}, []), do: false
+  def match?(%TagFilter.MustIncludeNamed{}, []), do: false
 
   def match?(%TagFilter.Named{} = filter, tags) when is_list(tags) do
     cond do
       %Always{} in tags -> true
-      filter.exclude? -> !(filter.name in tags)
-      !filter.exclude? -> filter.name in tags
+      true -> filter.name in tags
     end
   end
 
-  def match?(%{} = _filter, %Always{}), do: true
-  def match?(%TagFilter.Untagged{}, _tag), do: false
-  def match?(%TagFilter.Tagged{}, _tag), do: true
-
-  def match?(%TagFilter.Named{exclude?: true} = filter, tag) do
-    !match?(%{filter | exclude?: false}, tag)
+  def match?(%TagFilter.MustExcludeNamed{} = filter, tags) when is_list(tags) do
+    cond do
+      %Always{} in tags -> true
+      true -> !(filter.name in tags)
+    end
   end
 
-  def match?(%TagFilter.Named{exclude?: false} = filter, tag) do
-    filter.name == tag
+  def match?(%TagFilter.MustIncludeNamed{} = filter, tags) when is_list(tags) do
+    cond do
+      %Always{} in tags -> true
+      true -> filter.name in tags
+    end
   end
-
-  def exclusion?(%TagFilter.Named{exclude?: true}), do: true
-  def exclusion?(_), do: false
 end

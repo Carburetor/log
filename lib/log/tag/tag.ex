@@ -13,6 +13,7 @@ defmodule Log.Tag do
 
   def parse(tag) when is_atom(tag) do
     case to_string(tag) do
+      "+" <> _ -> {:error, "Tag must not start with +"}
       "-" <> _ -> {:error, "Tag must not start with -"}
       "_" <> _ -> {:error, "Tag must not start with _"}
       _ -> tag

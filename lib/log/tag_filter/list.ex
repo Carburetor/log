@@ -1,5 +1,6 @@
 defmodule Log.TagFilter.List do
   alias Log.TagFilter
+  alias Log.TagFilter.Condition
 
   import Kernel, except: [match?: 2]
 
@@ -37,8 +38,8 @@ defmodule Log.TagFilter.List do
     end
   end
 
-  @spec match?(filter :: t(), tag :: Tag.t() | [Tag.t()]) :: boolean()
-  def match?(filter, tag_or_tags)
+  @spec match?(filters :: t(), tag :: Tag.t() | [Tag.t()]) :: boolean()
+  def match?(filters, tag_or_tags)
   def match?([], []), do: false
   def match?([], [_ | _]), do: true
 
@@ -47,10 +48,6 @@ defmodule Log.TagFilter.List do
   end
 
   def match?(filters, tags) when is_list(filters) and is_list(tags) do
-    exclusion_filters = Enum.filter(filters, &TagFilter.exclusion?/1)
-    inclusion_filters = Enum.reject(filters, &TagFilter.exclusion?/1)
-
-    Enum.any?(inclusion_filters, &TagFilter.match?(&1, tags)) &&
-      Enum.all?(exclusion_filters, &TagFilter.match?(&1, tags))
+    Condition.match?(filters, &TagFilter.match?(&1, tags))
   end
 end
