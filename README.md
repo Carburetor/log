@@ -6,7 +6,7 @@
   - `+` requires the tag to be present
   - No sign means "One or more of no sign tags must be present"
 - `LOG_LEVEL` = `_none | debug | info | warn | error | user_defined_level`
-- `LOG_DEBUG` = `1` prints debug messages
+- `LOG_DEBUG` = `on | off` on prints debug messages
 - `LOG_FORMATTERS` = `on | off` on colorize output
 - `LOG_MODULE` = `on | off` on shows module where log line is being invoked
 
