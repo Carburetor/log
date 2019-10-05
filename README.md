@@ -10,6 +10,12 @@
 - `LOG_FORMATTERS` = `on | off` on colorize output
 - `LOG_MODULE` = `on | off` on shows module where log line is being invoked
 
+## TODO
+
+- Performance
+- Guidelines for logging
+- Testing
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
