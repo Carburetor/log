@@ -1,10 +1,10 @@
 Logger.configure(utc_log: true)
 
 Logger.remove_backend(:console)
-Logger.add_backend(Log.Backend.Sync)
+Logger.add_backend(Log.Backend)
 
 Logger.configure_backend(
-  Log.Backend.Sync,
+  Log.Backend,
   []
   # module_alias: %{
   #   LogTest.Deeply.Nested.Module.WithLog => ""

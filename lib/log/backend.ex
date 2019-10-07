@@ -1,5 +1,8 @@
-defmodule Log.Backend.Sync do
-  @moduledoc false
+defmodule Log.Backend do
+  @moduledoc """
+  Provides console logging functionality with output filtering through
+  environment variables
+  """
 
   alias Log.Config
 
