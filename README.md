@@ -52,6 +52,7 @@ More advanced functionalities are explained in
 - `@log_tags` attribute
 - Custom Logger with pre-defined tags
 - Available Log Levels
+- `Log.Fields`
 
 #### Tagging
 
@@ -207,6 +208,26 @@ Otherwise the log levels are limited to the `Logger` levels:
 - `info`
 - `warn`
 - `error`
+
+#### Log.Fields
+
+A common scenario is logging the entry point of a function, in such cases,
+displaying the arguments of the function is important. The module
+`Log.Fields` helps by formatting variables in a readable way:
+
+```elixir
+require Log.Fields
+Log.Fields.info({"a message", %{some_id: 123, some_name: "Jon"}})
+```
+
+Will output:
+
+```
+[2000-01-01T01:01:01.001Z] INFO: a message (SomeId: 123, SomeName: Jon)
+```
+
+If `String` keys are used, no transformation to pascal case is performed.
+It's possible to use a keyword instead of a map.
 
 ## Configuration
 
@@ -370,6 +391,47 @@ The `colors` map accepts level (as atoms) as keys, and
 [IO.ANSI.ansidata](https://hexdocs.pm/elixir/IO.ANSI.html#t:ansidata/0) as
 values.
 
+## Customized Logger
+
+It's possible to create a customized logger, which accepts a data structure
+of your choice, as well as return a value of your choice.
+It's sufficient to override the `bare_log` by following `Log.Fields`
+footprint:
+
+```elixir
+defmodule UpLog do
+  use Log, tags: [:upcase]
+
+  @impl true
+  def bare_log(data, meta)
+
+  def bare_log(data, meta) when is_function(data) do
+    Log.API.bare_log(
+      fn ->
+        data.() |> String.upcase()
+      end,
+      meta
+    )
+  end
+
+  def bare_log(data, meta) do
+    Log.API.bare_log(&String.upcase/1, meta)
+  end
+end
+```
+
+`UpLog` can be used like `Log`:
+
+```elixir
+require UpLog
+UpLog.info("a message")
+```
+
+And will output the following message:
+
+```
+[2000-01-01T01:01:01.001Z] INFO: A MESSAGE
+```
 
 ## TODO
 

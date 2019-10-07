@@ -1,5 +1,25 @@
-defmodule Log.Data do
-  use Log, tags: [:data]
+defmodule Log.Fields do
+  @moduledoc """
+  Provides logging for simple data structures in a human-readable fashion.
+  It's meant to be used for manually-provided data structures with 1-4
+  fields:
+
+  ```
+  require Log.Fields
+  Log.Fields.info({"a message", %{some_id: 123, some_name: "Jon"}})
+  ```
+
+  Will output
+
+  ```
+  [2000-01-01T01:01:01.001Z] INFO: a message (SomeId: 123, SomeName: Jon)
+  ```
+
+  If `String` keys are used, no transformation to pascal case is performed.
+  It's possible to use a keyword instead of a map.
+  """
+
+  use Log, tags: [:fields]
 
   @impl true
   def bare_log(data, meta)
