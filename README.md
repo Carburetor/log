@@ -438,3 +438,8 @@ And will output the following message:
 - [ ] Guidelines for logging
 - [ ] Testing
 - [ ] Performance
+
+## Thanks
+
+This project is deeply inspired by [Eventide](https://eventide-project.org/)
+and its [logger](http://docs.eventide-project.org/user-guide/logging).
