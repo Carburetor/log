@@ -73,8 +73,49 @@ messages:
 - `LOG_TAGS=-tag1` displays no messages
 - `LOG_TAGS=tag3` displays no messages
 
-The syntax for `LOG_TAGS` is explained in
-[Output Filtering Configuration](#output-filtering-configuration)
+##### Syntax
+
+Example:
+
+```
+LOG_TAGS=tag1,tag2,tag3,tag4
+```
+
+Will allow output of any message with any (minimum 1) of the following tags:
+
+- `tag1`
+- `tag2`
+- `tag3`
+- `tag4`
+
+The syntax for `LOG_TAGS` is the following:
+
+- `,` (comma) is used as a separator for tags
+- Empty strings are ignored, so `LOG_TAGS=tag1,,,,tag2` is valid and it will
+  filter any message without `tag1` or `tag2`
+
+
+###### Special Tags
+
+- `_untagged` includes any message without tags
+- `_all` includes all messages with at least one tag
+
+###### Modifiers
+
+A tag can be prefixed with `+` and `-` modifiers.
+When a tag has `-` modifier, it must be **absent** from the message tags.
+
+When a tag has `+` modifier, it must be **present** from the message tags.
+
+```
+LOG_TAGS=tag1,tag2,+tag3
+```
+
+A message is output only if it has:
+
+- tag1 and tag3
+- tag2 and tag3
+- tag1, tag2 and tag3
 
 #### Do Syntax
 
