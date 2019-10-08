@@ -400,7 +400,7 @@ Logger.configure_backend(
   [
     exclude_namespaces: [
       A.Module.Namespace
-    }
+    ]
   ]
 )
 ```
