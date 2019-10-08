@@ -1,4 +1,4 @@
-defmodule Log.Fields do
+defmodule Log.Args do
   @moduledoc """
   Provides logging for simple data structures in a human-readable fashion.
   It's meant to be used for manually-provided data structures with 1-4
@@ -19,7 +19,7 @@ defmodule Log.Fields do
   It's possible to use a keyword instead of a map.
   """
 
-  use Log, tags: [:fields]
+  use Log, tags: [:args]
 
   @impl true
   def bare_log(data, meta)

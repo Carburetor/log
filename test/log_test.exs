@@ -16,7 +16,7 @@ defmodule LogTest do
     # use Log.API, tags: [:use]
     require MyLog
     require Log.Inspect
-    require Log.Fields
+    require Log.Args
     require Log
     require Logger
 
@@ -81,7 +81,7 @@ defmodule LogTest do
       # end
 
       # Log.Inspect.info(%{data: 123}, label: "whatever")
-      Log.Fields.info({"this is a message", %{some_data: 123}})
+      Log.Args.info({"this is a message", %{some_data: 123}})
     end
   end
 

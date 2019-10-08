@@ -52,7 +52,7 @@ More advanced functionalities are explained in
 - `@log_tags` attribute
 - Custom Logger with pre-defined tags
 - Available Log Levels
-- `Log.Fields`
+- `Log.Args`
 
 #### Tagging
 
@@ -250,15 +250,15 @@ Otherwise the log levels are limited to the `Logger` levels:
 - `warn`
 - `error`
 
-#### Log.Fields
+#### Log.Args
 
 A common scenario is logging the entry point of a function, in such cases,
 displaying the arguments of the function is important. The module
-`Log.Fields` helps by formatting variables in a readable way:
+`Log.Args` helps by formatting variables in a readable way:
 
 ```elixir
-require Log.Fields
-Log.Fields.info({"a message", %{some_id: 123, some_name: "Jon"}})
+require Log.Args
+Log.Args.info({"a message", %{some_id: 123, some_name: "Jon"}})
 ```
 
 Will output:
@@ -436,7 +436,7 @@ values.
 
 It's possible to create a customized logger, which accepts a data structure
 of your choice, as well as return a value of your choice.
-It's sufficient to override the `bare_log` by following `Log.Fields`
+It's sufficient to override the `bare_log` by following `Log.Args`
 footprint:
 
 ```elixir
