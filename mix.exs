@@ -52,7 +52,8 @@ defmodule Log.MixProject do
         "LICENSE.md",
         "GUIDELINES.md",
         "test",
-        "lib"
+        "lib",
+        "VERSION"
       ]
     ]
   end
