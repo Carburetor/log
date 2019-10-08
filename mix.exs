@@ -33,8 +33,8 @@ defmodule Log.MixProject do
   defp deps do
     [
       {:recase, ">= 0.6.0"},
-      {:dialyxir, ">= 1.0.0-rc.3", only: [:dev], runtime: false},
-      {:ex_doc, ">= 0.19.2", only: [:dev]}
+      {:dialyxir, ">= 1.0.0-rc.7", only: [:dev], runtime: false},
+      {:ex_doc, ">= 0.21.2", only: [:dev]}
     ]
   end
 
@@ -49,6 +49,8 @@ defmodule Log.MixProject do
         ".formatter.exs",
         "mix.exs",
         "README.md",
+        "LICENSE.md",
+        "GUIDELINES.md",
         "test",
         "lib"
       ]
@@ -58,7 +60,13 @@ defmodule Log.MixProject do
   def docs do
     [
       main: "README.md",
-      extras: ["README.md": [filename: "README.md", title: "Log"]]
+      extras: [
+        "README.md": [filename: "README.md", title: "Log"],
+        "GUIDELINES.md": [
+          filename: "GUIDELINES.md",
+          title: "Logging Guidelines"
+        ]
+      ]
     ]
   end
 
