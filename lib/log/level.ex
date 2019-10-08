@@ -1,4 +1,8 @@
 defmodule Log.Level do
+  @moduledoc """
+  Provides functions to configure and order different levels
+  """
+
   @default [:trace, :debug, :info, :warn, :error, :fatal]
   @levels (case Application.get_env(:log, :levels, @default) do
              [] ->

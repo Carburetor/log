@@ -1,4 +1,8 @@
 defmodule Log.LevelFilter do
+  @moduledoc """
+  Provides functions to parse `LOG_LEVEL` into filtering
+  """
+
   alias Log.LevelFilter.None
   alias Log.Level
 

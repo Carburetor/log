@@ -1,4 +1,8 @@
 defmodule Log.Defaults do
+  @moduledoc """
+  Provides functions to get default runtime configuration
+  """
+
   alias Log.Device
   alias Log.LevelFilter
   alias Log.TagFilter

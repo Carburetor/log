@@ -1,4 +1,8 @@
 defmodule Log.Config do
+  @moduledoc """
+  Provides a datastructure to configure `Log`
+  """
+
   defstruct colors: %{}, module_alias: %{}, exclude_namespaces: []
 
   alias Log.Level

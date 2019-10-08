@@ -1,4 +1,10 @@
 defmodule Log.TagFilter.Condition do
+  @moduledoc """
+  Provides functions to match a list of filters using a matcher function.
+  Each filter is executed using an `and` or `or` condition based on
+  `Log.TagFilter.ConditionType` protocol
+  """
+
   @type t :: :and | :or
 
   @spec get_type(tag_filter :: Log.TagFilter.t()) :: t()

@@ -1,4 +1,8 @@
 defmodule Log.Device do
+  @moduledoc """
+  Parser for `CONSOLE_DEVICE` environment variable
+  """
+
   @type t :: :standard_error | :standard_io
 
   @spec parse(device :: String.t()) :: t() | :error

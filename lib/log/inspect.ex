@@ -1,4 +1,8 @@
 defmodule Log.Inspect do
+  @moduledoc """
+  Log frontend for `Logger` focused on performing `inspect` of input data
+  """
+
   use Log, tags: [:inspect]
 
   def inspect_options,

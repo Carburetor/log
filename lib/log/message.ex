@@ -1,4 +1,9 @@
 defmodule Log.Message do
+  @moduledoc """
+  Provides a datastructure that holds all the information related to an
+  incoming log message that needs to output
+  """
+
   defstruct output_level: %Log.LevelFilter.None{},
             output_device: :standard_error,
             output_tags: [],

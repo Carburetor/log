@@ -1,4 +1,8 @@
 defmodule Log.ModuleAlias do
+  @moduledoc """
+  Provide functions to replace namespaces from module names
+  """
+
   @type t :: %{optional(module()) => String.t()}
   @type sorted :: [{module(), String.t()}]
 

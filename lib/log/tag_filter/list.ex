@@ -1,4 +1,8 @@
 defmodule Log.TagFilter.List do
+  @moduledoc """
+  Provides functions to parse `LOG_TAGS` into a list of `Log.TagFilter.t()`
+  """
+
   alias Log.TagFilter
   alias Log.TagFilter.Condition
 

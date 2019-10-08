@@ -1,4 +1,8 @@
 defmodule Log.TagFilter do
+  @moduledoc """
+  Provides functions to parse a tag filter from a string
+  """
+
   alias Log.TagFilter
   alias Log.Tag
   alias Log.Tag.Always

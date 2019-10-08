@@ -1,4 +1,8 @@
 defmodule Log do
+  @moduledoc """
+  Log frontend for `Logger`
+  """
+
   use Log.API
 
   defmacro __using__(opts \\ []) do

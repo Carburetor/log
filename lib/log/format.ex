@@ -1,4 +1,8 @@
 defmodule Log.Format do
+  @moduledoc """
+  Provides functions to convert a `Log.Message.t()` in text form
+  """
+
   @spec message(message :: Log.Message.t()) :: String.t()
   def message(%Log.Message{} = message) do
     timestamp = timestamp(message.timestamp, message.utc?)

@@ -1,4 +1,8 @@
 defmodule Log.Tag.List do
+  @moduledoc """
+  Provides functions to parse a list of atoms into a list of tags
+  """
+
   alias Log.Tag
 
   @type t :: [Tag.t()]

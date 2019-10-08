@@ -1,4 +1,8 @@
 defmodule Log.Tag do
+  @moduledoc """
+  Provides function to parse an atom into a `Log.Tag.t()`
+  """
+
   alias Log.Tag.Always
 
   @type t :: atom() | Always.t()

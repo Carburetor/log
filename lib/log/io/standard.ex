@@ -1,4 +1,8 @@
 defmodule Log.IO.Standard do
+  @moduledoc """
+  Provides `Log.IO` implementation to write to STDIO or STDERR
+  """
+
   @behaviour Log.IO
 
   @impl true

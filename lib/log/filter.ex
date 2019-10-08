@@ -1,4 +1,8 @@
 defmodule Log.Filter do
+  @moduledoc """
+  Provides functions to mark the message as skippable from the log writer
+  """
+
   def by_level(%Log.Message{} = message) do
     %{output_level: output_level, level: level} = message
 

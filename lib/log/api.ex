@@ -1,4 +1,15 @@
 defmodule Log.API do
+  @moduledoc """
+  Provides macros to define log-macros named after levels:
+
+  - trace
+  - debug
+  - info
+  - warn
+  - error
+  - fatal
+  """
+
   @callback default_tags() :: [atom()]
   @callback bare_log(
               data :: any() | (() -> any()),
