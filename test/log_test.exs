@@ -81,7 +81,21 @@ defmodule LogTest do
       # end
 
       # Log.Inspect.info(%{data: 123}, label: "whatever")
+      # Log.Args.info({"this is a message", %{some_data: 123}})
+      Log.Args.info(fn -> {"this is a message", %{some_data: 123}} end,
+        tags: [:something]
+      )
+
+      Log.Args.info(fn -> {"this is a message", %{some_data: 123}} end)
       Log.Args.info({"this is a message", %{some_data: 123}})
+
+      Log.Args.info tags: [:something] do
+        {"this is a message", %{some_data: 123}}
+      end
+
+      Log.Args.info do
+        {"this is a message", %{some_data: 123}}
+      end
     end
   end
 

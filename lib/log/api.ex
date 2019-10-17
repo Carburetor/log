@@ -120,6 +120,18 @@ defmodule Log.API do
         end
       end
 
+      defmacro unquote(level)(do: block) do
+        level = unquote(level)
+
+        quote do
+          unquote(__MODULE__).log(
+            unquote(level),
+            fn -> unquote(block) end,
+            []
+          )
+        end
+      end
+
       defmacro unquote(level)(chars_or_fun) do
         level = unquote(level)
 

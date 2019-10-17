@@ -5,8 +5,8 @@ defmodule Log.Args do
   fields:
 
   ```
-  require Log.Fields
-  Log.Fields.info({"a message", %{some_id: 123, some_name: "Jon"}})
+  require Log.Args
+  Log.Args.info({"a message", %{some_id: 123, some_name: "Jon"}})
   ```
 
   Will output
