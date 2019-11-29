@@ -32,7 +32,6 @@ defmodule Log.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:recase, ">= 0.2.0"},
       {:dialyxir, ">= 1.0.0-rc.7", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.21.2", only: [:dev]}
     ]
