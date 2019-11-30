@@ -98,7 +98,7 @@ The syntax for `LOG_TAGS` is the following:
 ###### Special Tags
 
 - `_untagged` includes any message without tags
-- `_all` includes all messages with at least one tag
+- `_all` includes all messages, tagged and untagged. Must be used alone
 
 ###### Modifiers
 
@@ -476,7 +476,8 @@ And will output the following message:
 
 ## TODO
 
-- [ ] Guidelines for logging
+- [x] Guidelines for logging
+- [ ] Restructure filters
 - [ ] Testing
 - [ ] Performance
 

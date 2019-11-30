@@ -5,7 +5,8 @@ defmodule Log.Tag do
 
   alias Log.Tag.Always
 
-  @type t :: atom() | Always.t()
+  @type name :: atom()
+  @type t :: name() | Always.t()
 
   @spec parse(tag :: atom()) :: t() | {:error, String.t()}
   def parse(tag)

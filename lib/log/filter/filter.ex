@@ -21,7 +21,7 @@ defmodule Log.Filter do
   def by_tag_filters(%Log.Message{skip?: true} = message), do: message
 
   def by_tag_filters(%Log.Message{} = message) do
-    case Log.TagFilter.List.match?(message.output_tags, message.tags) do
+    case Log.Filter.Tag.match?(message.output_tags, message.tags) do
       true ->
         message
 

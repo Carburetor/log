@@ -6,7 +6,7 @@ defmodule Log.Message do
 
   defstruct output_level: %Log.LevelFilter.None{},
             output_device: :standard_error,
-            output_tags: [],
+            output_tags: Log.Filter.Tag.default(),
             config: %Log.Config{},
             level: Log.Level.min(),
             timestamp: NaiveDateTime.new(1, 1, 1, 0, 0, 0) |> elem(1),

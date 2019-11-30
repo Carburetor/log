@@ -30,7 +30,8 @@ defmodule LogTest do
       # log(:error, "foo", tags: [:foo])
     end
 
-    @log_tags [:special_other]
+    # @log_tags [:special_other]
+    @log_tags []
     def world do
       # log(:error, fn -> "bar" end, tags: [:bar])
       # debug("foo", tags: [:bar])
@@ -82,20 +83,29 @@ defmodule LogTest do
 
       # Log.Inspect.info(%{data: 123}, label: "whatever")
       # Log.Args.info({"this is a message", %{some_data: 123}})
-      Log.Args.info(fn -> {"this is a message", %{some_data: 123}} end,
-        tags: [:something]
-      )
 
-      Log.Args.info(fn -> {"this is a message", %{some_data: 123}} end)
-      Log.Args.info({"this is a message", %{some_data: 123}})
+      # Log.Args.info(fn -> {"this is a message", %{some_data: 123}} end,
+      #   tags: [:something]
+      # )
 
-      Log.Args.info tags: [:something] do
-        {"this is a message", %{some_data: 123}}
-      end
+      # Log.Args.info(fn -> {"this is a message", %{some_data: 123}} end)
+      # Log.Args.info({"this is a message", %{some_data: 123}})
 
-      Log.Args.info do
-        {"this is a message", %{some_data: 123}}
-      end
+      # Log.Args.info tags: [:something] do
+      #   {"this is a message", %{some_data: 123}}
+      # end
+
+      # Log.Args.info do
+      #   {"this is a message", %{some_data: 123}}
+      # end
+
+      Logger.info("This is an untagged message")
+      Log.info("This is an untagged message with Log")
+      Log.info("This message tag :foo, :bar", tags: [:foo, :bar])
+      Log.info("This message tag :foo, :bar, :baz", tags: [:foo, :bar, :baz])
+      Log.info("This message tag :foo", tags: [:foo])
+      Log.info("This message tag :bar", tags: [:bar])
+      Log.info("This message tag :bar, :baz", tags: [:bar, :baz])
     end
   end
 
