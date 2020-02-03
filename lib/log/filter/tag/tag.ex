@@ -5,13 +5,16 @@ defmodule Log.Filter.Tag do
   defstruct include_untagged?: false,
             one_of: :any,
             must_include: :none,
-            must_exclude: :none
+            must_exclude: :none,
+            level: Log.Level.max()
 
   @type t :: %__MODULE__{
           include_untagged?: boolean(),
           one_of: :any | nonempty_list(Log.Tag.name()),
           must_include: :none | nonempty_list(Log.Tag.name()),
-          must_exclude: :none | :all | nonempty_list(Log.Tag.name())
+          must_exclude: :none | :all | nonempty_list(Log.Tag.name()),
+          # Filter applied to this level and below
+          level: Log.Level.t()
         }
 
   def untagged, do: %__MODULE__{include_untagged?: true, must_exclude: :all}
