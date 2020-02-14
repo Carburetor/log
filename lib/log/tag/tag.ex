@@ -3,6 +3,8 @@ defmodule Log.Tag do
   Provides function to parse an atom into a `Log.Tag.t()`
   """
 
+  import Kernel, except: [to_string: 1]
+
   alias Log.Tag.Always
 
   @type name :: atom()
@@ -17,7 +19,7 @@ defmodule Log.Tag do
   end
 
   def parse(tag) when is_atom(tag) do
-    case to_string(tag) do
+    case Kernel.to_string(tag) do
       "+" <> _ -> {:error, "Tag must not start with +"}
       "-" <> _ -> {:error, "Tag must not start with -"}
       "_" <> _ -> {:error, "Tag must not start with _"}
@@ -32,4 +34,8 @@ defmodule Log.Tag do
       result -> result
     end
   end
+
+  @spec to_string(tag :: t()) :: String.t()
+  def to_string(%Always{}), do: ":*"
+  def to_string(name) when is_atom(name), do: ":#{name}"
 end
