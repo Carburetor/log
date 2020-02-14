@@ -7,15 +7,27 @@ defmodule Log.Format do
   def message(%Log.Message{} = message) do
     timestamp = timestamp(message.timestamp, message.utc?)
     module = module(message.module, message.config.module_alias)
+    tags = tags(message.tags)
     level = level(message.level)
     text = text(message.text)
+    output = [" ", to_string(level), ": ", to_string(text)]
+
+    output =
+      case {tags, message.format_tags?} do
+        {_, false} -> output
+        {"", _} -> output
+        _ -> [" ", to_string(tags) | output]
+      end
 
     output =
       case {module, message.module?} do
-        {_, false} -> "[#{timestamp}] #{level}: #{text}"
-        {"", _} -> "[#{timestamp}] #{level}: #{text}"
-        _ -> "[#{timestamp}] #{module} #{level}: #{text}"
+        {_, false} -> output
+        {"", _} -> output
+        _ -> [" ", to_string(module) | output]
       end
+
+    output = ["[", to_string(timestamp), "]" | output]
+    output = to_string(output)
 
     case message.format? do
       true -> color(message.config, message.level, output)
@@ -32,6 +44,20 @@ defmodule Log.Format do
           String.t()
   def module(module, aliases) do
     Log.ModuleAlias.replace(module, aliases)
+  end
+
+  @spec tags(tag_list :: [Log.Tag.t()]) :: String.t()
+  def tags(tag_list)
+
+  def tags([]), do: ""
+
+  def tags(tag_list) do
+    tags_text =
+      tag_list
+      |> Enum.map(&Log.Tag.to_string/1)
+      |> Enum.join(", ")
+
+    "{#{tags_text}}"
   end
 
   @spec level(level :: Log.Level.t()) :: String.t()

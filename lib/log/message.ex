@@ -16,10 +16,27 @@ defmodule Log.Message do
             format?: true,
             module?: true,
             utc?: false,
+            format_tags?: false,
             skip?: false,
             skip_reason: ""
 
-  @type t :: map()
+  @type t :: %__MODULE__{
+          output_level: Log.LevelFilter.t(),
+          output_device: :standard_error | :standard_output,
+          output_tags: Log.Filter.Tag.t(),
+          config: Log.Config.t(),
+          level: Log.Level.t(),
+          timestamp: NaiveDateTime.t(),
+          text: String.t(),
+          tags: [Log.Tag.t()],
+          module: nil | module(),
+          format?: boolean(),
+          module?: boolean(),
+          utc?: boolean(),
+          format_tags?: boolean(),
+          skip?: boolean(),
+          skip_reason: String.t()
+        }
 
   def build({level, _gl, {Logger, text, timestamp, meta}}) do
     %__MODULE__{text: text}

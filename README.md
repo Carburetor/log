@@ -301,6 +301,8 @@ The available environment variables are the following:
 - `LOG_DEBUG` = `on | off` when set to **on** prints debug messages and
   errors, as well as tags information
 - `LOG_FORMATTERS` = `on | off` when set to **on**, colorizes output
+- `LOG_FORMAT_TAGS` = `on | off` when set to **on**, displays the tags of the
+  message
 - `LOG_MODULE` = `on | off` when set to **on**, displays the module where
   log line is being invoked
 
