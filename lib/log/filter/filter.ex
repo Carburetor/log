@@ -20,8 +20,8 @@ defmodule Log.Filter do
 
   def by_tag_filters(%Log.Message{skip?: true} = message), do: message
 
-  def by_tag_filters(%Log.Message{} = message) do
-    case Log.Filter.Tag.match?(message.output_tags, message.tags) do
+  def by_tag_filters(%Log.Message{tags: tags, level: level} = message) do
+    case Log.Filter.Tag.match?(message.output_tags, {tags, level}) do
       true ->
         message
 

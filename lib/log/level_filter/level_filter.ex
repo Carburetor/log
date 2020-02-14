@@ -10,15 +10,14 @@ defmodule Log.LevelFilter do
 
   @spec parse(level :: String.t()) :: t() | {:error, String.t()}
   def parse(level)
-  def parse("_min"), do: Level.min()
-  def parse("_max"), do: Level.max()
   def parse("_none"), do: %None{}
 
-  for {name, lv} <- Enum.map(Level.all(), fn lv -> {to_string(lv), lv} end) do
-    def parse(unquote(name)), do: unquote(lv)
+  def parse(level) do
+    case Level.Name.parse(level) do
+      {:ok, level} -> level
+      err -> err
+    end
   end
-
-  def parse(level), do: {:error, "Level #{inspect(level)} doesn't exist"}
 
   @spec parse!(level :: String.t()) :: t() | no_return()
   def parse!(level) do

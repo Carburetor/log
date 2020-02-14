@@ -23,9 +23,9 @@ defmodule Log.Defaults do
 
   @spec tags() :: Filter.Tag.t()
   def tags do
-    "LOG_TAGS"
-    |> System.get_env("")
-    |> Filter.Tag.parse!()
+    log_tags = System.get_env("LOG_TAGS", "")
+    log_tags_level = System.get_env("LOG_TAGS_LEVEL", "")
+    Filter.Tag.parse!({log_tags, log_tags_level})
   end
 
   @spec utc?() :: boolean()

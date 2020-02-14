@@ -59,6 +59,18 @@ defmodule Log.Level do
   @spec get_weight(level :: t()) :: weight()
   def get_weight(level), do: Map.get(@level_weights, level)
 
+  @spec compare(left :: t(), right :: t()) :: :lt | :eq | :gt
+  def compare(left, right) do
+    left_weight = get_weight(left)
+    right_weight = get_weight(right)
+
+    cond do
+      left_weight < right_weight -> :lt
+      left_weight == right_weight -> :eq
+      left_weight > right_weight -> :gt
+    end
+  end
+
   @spec min() :: t()
   def min, do: all() |> List.first()
 
