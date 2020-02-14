@@ -5,13 +5,13 @@ defmodule Log.Level.Name do
 
   alias Log.Level
 
-  @spec parse(level :: String.t()) :: Level.t() | {:error, String.t()}
+  @spec parse(level :: String.t()) :: {:ok, Level.t()} | {:error, String.t()}
   def parse(level)
-  def parse("_min"), do: Level.min()
-  def parse("_max"), do: Level.max()
+  def parse("_min"), do: {:ok, Level.min()}
+  def parse("_max"), do: {:ok, Level.max()}
 
   for {name, lv} <- Enum.map(Level.all(), fn lv -> {to_string(lv), lv} end) do
-    def parse(unquote(name)), do: unquote(lv)
+    def parse(unquote(name)), do: {:ok, unquote(lv)}
   end
 
   def parse(level), do: {:error, "Level #{inspect(level)} doesn't exist"}
@@ -20,7 +20,7 @@ defmodule Log.Level.Name do
   def parse!(level) do
     case parse(level) do
       {:error, msg} -> raise ArgumentError, msg
-      result -> result
+      {:ok, result} -> result
     end
   end
 end

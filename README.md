@@ -284,9 +284,19 @@ The available environment variables are the following:
   - `-` requires the tag to be missing
   - `+` requires the tag to be present
   - No sign means "One or more of no sign tags must be present"
+- `LOG_TAGS_LEVEL` =
+  `_min | _max | trace | debug | info | warn | error | fatal`
+  Any message at this level or above will not be filtered out by tags.
+  Useful to always display warns or errors
+  - `_min` is an alias for `trace`
+  - `_max` is an alias for `fatal`
+  - User defined levels are also supported in `LOG_TAGS_LEVEL`
 - `LOG_LEVEL` =
-  `_none | trace | debug | info | warn | error | fatal`
+  `_none | _min | _max | trace | debug | info | warn | error | fatal`
+  Any message below this level won't be displayed
   - `_none` means no message will be logged
+  - `_min` is an alias for `trace`
+  - `_max` is an alias for `fatal`
   - User defined levels are also supported in `LOG_LEVEL`
 - `LOG_DEBUG` = `on | off` when set to **on** prints debug messages and
   errors, as well as tags information

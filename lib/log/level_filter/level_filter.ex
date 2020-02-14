@@ -11,7 +11,13 @@ defmodule Log.LevelFilter do
   @spec parse(level :: String.t()) :: t() | {:error, String.t()}
   def parse(level)
   def parse("_none"), do: %None{}
-  def parse(level), do: Level.Name.parse(level)
+
+  def parse(level) do
+    case Level.Name.parse(level) do
+      {:ok, level} -> level
+      err -> err
+    end
+  end
 
   @spec parse!(level :: String.t()) :: t() | no_return()
   def parse!(level) do

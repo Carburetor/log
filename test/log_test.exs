@@ -103,7 +103,7 @@ defmodule LogTest do
       Log.info("This is an untagged message with Log")
       Log.info("This message tag :foo, :bar", tags: [:foo, :bar])
       Log.info("This message tag :foo, :bar, :baz", tags: [:foo, :bar, :baz])
-      Log.info("This message tag :foo", tags: [:foo])
+      Log.warn("This message tag :foo", tags: [:foo])
       Log.info("This message tag :bar", tags: [:bar])
       Log.info("This message tag :bar, :baz", tags: [:bar, :baz])
     end
