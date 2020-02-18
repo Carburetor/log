@@ -489,6 +489,8 @@ And will output the following message:
 ## TODO
 
 - [x] Guidelines for logging
+- [ ] LOG_TAGS_LEVEL should be renamed. It should bypass any form of filtering
+  for the set level and above
 - [ ] Restructure filters
 - [ ] Testing
 - [ ] Performance
