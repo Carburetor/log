@@ -98,9 +98,7 @@ defmodule Log.Filter.Tag do
           {:ok, t()} | {:error, String.t()}
   def parse(tags)
   def parse({"_untagged", level_name}), do: untagged(level_name)
-  def parse({"_all", "_max"}), do: {:ok, all()}
-  def parse({"_all", ""}), do: {:ok, all()}
-  def parse({"_all", level_name}), do: {:error, "_all used with #{level_name}"}
+  def parse({"_all", _level_name}), do: {:ok, all()}
   def parse({"", ""}), do: {:ok, default()}
   def parse({"", level_name}), do: tagged(level_name)
   def parse({tags, ""}), do: parse({tags, "_max"})

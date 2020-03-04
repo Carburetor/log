@@ -100,6 +100,7 @@ defmodule LogTest do
       # end
 
       Logger.info("This is an untagged message")
+      Logger.error("This is an untagged message")
       Log.info("This is an untagged message with Log")
       Log.info("This message tag :foo, :bar", tags: [:foo, :bar])
       Log.info("This message tag :foo, :bar, :baz", tags: [:foo, :bar, :baz])
