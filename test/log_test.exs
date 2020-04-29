@@ -19,6 +19,7 @@ defmodule LogTest do
     require Log.Args
     require Log
     require Logger
+    require Log.Passthrough
 
     # @impl true
     # def bare_log(chars_or_fun, meta) do
@@ -107,6 +108,7 @@ defmodule LogTest do
       Log.warn("This message tag :foo", tags: [:foo])
       Log.info("This message tag :bar", tags: [:bar])
       Log.info("This message tag :bar, :baz", tags: [:bar, :baz])
+      Log.Passthrough.info(123, label: "A passthrough message")
     end
   end
 
