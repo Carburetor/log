@@ -170,6 +170,21 @@ The last feature of `Log.Inspect` is that it tags all the messages with the
 tag `:inspect`, so removing inspect messages can be easily performed by
 setting the environment variable `LOG_TAGS` to include `-inspect`.
 
+#### Passthrough
+
+A common use-case is logging within a pipe. The `Log.Passthrough` module
+returns the first argument passed to the log function and writes as log message
+what is written in the `:label` option.
+
+```elixir
+a =
+  [1, 2]
+  |> Enum.map(fn x -> x * 2 end)
+  |> Log.Passthrough.info(label: "Mapping completed")
+  |> Enum.map(fn x -> x + 1 end)
+# b is now [3, 5]]
+```
+
 #### Log Tags Attribute
 
 When the attribute `@log_tags` is defined, any `Log` message will include
